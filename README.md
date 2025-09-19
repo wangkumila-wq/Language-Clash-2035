@@ -1,0 +1,1162 @@
+# Language-Clash-2035[language_clash_2035_game.html](https://github.com/user-attachments/files/22423908/language_clash_2035_game.html)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Clash 2035: The Last Voice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .xp-tracker {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .content-area {
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+        
+        .zone-indicator {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .choice-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .choice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+        
+        .role-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .role-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .role-card:hover, .role-card.selected {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+            transform: scale(1.05);
+        }
+        
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .language-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .language-card:hover, .language-card.selected {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+        
+        .ai-tools {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .ai-tool {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .ai-tool:hover, .ai-tool.selected {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+            transform: scale(1.05);
+        }
+        
+        .form-area {
+            margin: 20px 0;
+        }
+        
+        .form-area textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1em;
+            resize: vertical;
+        }
+        
+        .form-area input[type="url"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .side-quest {
+            background: linear-gradient(45deg, #ffd89b, #19547b);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .ethics-checklist {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="title">Language Clash 2035: The Last Voice</h1>
+            <p class="subtitle">An Interactive Journey Through Language Preservation</p>
+            <div class="xp-tracker">XP: <span id="xp-display">0</span> | Zone: <span id="zone-display">Start</span></div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        
+        <div class="content-area" id="content-area">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        class LanguageClashGame {
+            constructor() {
+                this.xp = 0;
+                this.currentZone = 'start';
+                this.selectedRole = '';
+                this.selectedLanguages = [];
+                this.selectedAITools = [];
+                this.sideQuestActive = false;
+                this.sideQuestComplete = false;
+                this.glitchFound = false;
+                this.gameData = {};
+                this.playerData = {
+                    playerName: '',
+                    playerId: '',
+                    selectedRole: '',
+                    startTime: new Date().toISOString(),
+                    zoneChoices: {},
+                    finalXP: 0,
+                    sideQuestCompleted: false,
+                    gameCompleted: false,
+                    endTime: null
+                };
+                
+                this.contentArea = document.getElementById('content-area');
+                this.xpDisplay = document.getElementById('xp-display');
+                this.zoneDisplay = document.getElementById('zone-display');
+                this.progressFill = document.getElementById('progress-fill');
+                
+                this.init();
+            }
+            
+            init() {
+                this.showPlayerRegistration();
+            }
+            
+            showPlayerRegistration() {
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Player Registration</div>
+                    <p>Welcome to Language Clash 2035! Before we begin your mission, please provide your information:</p>
+                    
+                    <div class="form-area">
+                        <input type="text" id="player-name" placeholder="Enter your full name" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; background: rgba(255,255,255,0.9); color: #333; font-size: 1em;">
+                        <input type="text" id="player-id" placeholder="Enter your student ID (optional)" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; background: rgba(255,255,255,0.9); color: #333; font-size: 1em;">
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.registerPlayer()" id="register-btn" disabled>Continue to Role Selection</button>
+                    </div>
+                `;
+                
+                // Enable button when name is entered
+                document.getElementById('player-name').addEventListener('input', (e) => {
+                    const registerBtn = document.getElementById('register-btn');
+                    registerBtn.disabled = e.target.value.trim() === '';
+                });
+            }
+            
+            registerPlayer() {
+                const name = document.getElementById('player-name').value.trim();
+                const id = document.getElementById('player-id').value.trim() || 'Anonymous';
+                
+                if (!name) return;
+                
+                this.playerData.playerName = name;
+                this.playerData.playerId = id;
+                
+                this.showStartScreen();
+            }
+            
+            addXP(amount) {
+                this.xp += amount;
+                this.xpDisplay.textContent = this.xp;
+                this.updateProgress();
+            }
+            
+            updateProgress() {
+                const zones = ['start', 'zone1', 'zone2', 'zone3', 'zone4', 'zone5'];
+                const currentIndex = zones.indexOf(this.currentZone);
+                const progress = (currentIndex / (zones.length - 1)) * 100;
+                this.progressFill.style.width = `${progress}%`;
+            }
+            
+            updateZoneDisplay(zone) {
+                this.currentZone = zone;
+                this.zoneDisplay.textContent = zone === 'start' ? 'Start' : zone.toUpperCase();
+                this.updateProgress();
+            }
+            
+            showStartScreen() {
+                this.updateZoneDisplay('start');
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Welcome to Language Clash 2035</div>
+                    <p>In the year 2035, the world's linguistic diversity hangs by a thread. As artificial intelligence and global communication systems favor dominant languages, thousands of unique voices face extinction.</p>
+                    <p>You are part of an elite team tasked with preserving humanity's linguistic heritage. Your mission: explore five critical zones, make crucial decisions, and create a campaign to save endangered languages.</p>
+                    
+                    <h3>Choose Your Team Role:</h3>
+                    <div class="role-selection">
+                        <div class="role-card" data-role="voice">
+                            <h4>The Voice</h4>
+                            <p>Speaks for the voiceless, passionate advocate for endangered communities</p>
+                        </div>
+                        <div class="role-card" data-role="scholar">
+                            <h4>The Scholar</h4>
+                            <p>Researches language patterns, etymology, and linguistic structures</p>
+                        </div>
+                        <div class="role-card" data-role="visionary">
+                            <h4>The Visionary</h4>
+                            <p>Imagines innovative solutions and future possibilities</p>
+                        </div>
+                        <div class="role-card" data-role="strategist">
+                            <h4>The Strategist</h4>
+                            <p>Plans campaigns and coordinates preservation efforts</p>
+                        </div>
+                        <div class="role-card" data-role="archivist">
+                            <h4>The Archivist</h4>
+                            <p>Documents and preserves linguistic knowledge for future generations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.startGame()" id="start-btn" disabled>Begin Mission</button>
+                    </div>
+                `;
+                
+                // Add event listeners for role selection
+                document.querySelectorAll('.role-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        this.selectedRole = card.dataset.role;
+                        document.getElementById('start-btn').disabled = false;
+                        document.getElementById('start-btn').textContent = `Begin Mission as ${card.querySelector('h4').textContent}`;
+                    });
+                });
+            }
+            
+            startGame() {
+                if (!this.selectedRole) return;
+                this.playerData.selectedRole = this.selectedRole;
+                this.recordChoice('start', 'role_selected', this.selectedRole);
+                this.addXP(10);
+                this.showZone1();
+            }
+            
+            recordChoice(zone, action, choice) {
+                if (!this.playerData.zoneChoices[zone]) {
+                    this.playerData.zoneChoices[zone] = [];
+                }
+                this.playerData.zoneChoices[zone].push({
+                    timestamp: new Date().toISOString(),
+                    action: action,
+                    choice: choice
+                });
+            }
+            
+            showZone1() {
+                this.updateZoneDisplay('zone1');
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 1: The Extinction Crisis</div>
+                    <p>Welcome to the Language Observatory, where we monitor the world's linguistic diversity. The data is alarming:</p>
+                    <ul>
+                        <li>7,000 languages exist today, but 40% are endangered</li>
+                        <li>One language dies every 14 days</li>
+                        <li>By 2100, experts predict only 600 languages will survive</li>
+                    </ul>
+                    
+                    <p>Your first mission: Choose 3 languages from different regions to prioritize for preservation efforts.</p>
+                    
+                    <div class="language-grid">
+                        <div class="language-card" data-lang="quechua">
+                            <h4>Quechua</h4>
+                            <p>Andean South America<br>8 million speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="maori">
+                            <h4>Māori</h4>
+                            <p>New Zealand<br>150,000 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="navajo">
+                            <h4>Navajo</h4>
+                            <p>Southwestern USA<br>170,000 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="welsh">
+                            <h4>Welsh</h4>
+                            <p>Wales, UK<br>600,000 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="sami">
+                            <h4>Sami</h4>
+                            <p>Northern Europe<br>30,000 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="ainu">
+                            <h4>Ainu</h4>
+                            <p>Japan<br>10 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="hawaiian">
+                            <h4>Hawaiian</h4>
+                            <p>Hawaii, USA<br>24,000 speakers</p>
+                        </div>
+                        <div class="language-card" data-lang="yupik">
+                            <h4>Yup'ik</h4>
+                            <p>Alaska, Russia<br>19,000 speakers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.confirmLanguageSelection()" id="lang-confirm-btn" disabled>Confirm Selection (0/3)</button>
+                    </div>
+                `;
+                
+                // Add language selection logic
+                document.querySelectorAll('.language-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const lang = card.dataset.lang;
+                        if (card.classList.contains('selected')) {
+                            card.classList.remove('selected');
+                            this.selectedLanguages = this.selectedLanguages.filter(l => l !== lang);
+                        } else if (this.selectedLanguages.length < 3) {
+                            card.classList.add('selected');
+                            this.selectedLanguages.push(lang);
+                        }
+                        
+                        const btn = document.getElementById('lang-confirm-btn');
+                        btn.textContent = `Confirm Selection (${this.selectedLanguages.length}/3)`;
+                        btn.disabled = this.selectedLanguages.length !== 3;
+                    });
+                });
+            }
+            
+            confirmLanguageSelection() {
+                if (this.selectedLanguages.length !== 3) return;
+                this.recordChoice('zone1', 'languages_selected', this.selectedLanguages);
+                this.addXP(15);
+                this.showZone2();
+            }
+            
+            showZone2() {
+                this.updateZoneDisplay('zone2');
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 2: The Dominant Force</div>
+                    <p>You've entered the Global Communication Hub, where English dominates digital spaces:</p>
+                    <ul>
+                        <li>60% of internet content is in English</li>
+                        <li>English is spoken by 1.5 billion people as first or second language</li>
+                        <li>Major tech platforms primarily support English</li>
+                    </ul>
+                    
+                    <p>As you analyze the data, you notice something unusual in the code... There's a hidden pathway that wasn't supposed to be here.</p>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.reflectOnEnglish()">Reflect on English's global impact</button>
+                        <button class="choice-btn" onclick="game.findGlitch()">Investigate the unusual code (Hidden Path)</button>
+                        <button class="choice-btn" onclick="game.proceedToZone3()">Continue to next zone</button>
+                    </div>
+                `;
+            }
+            
+            reflectOnEnglish() {
+                this.recordChoice('zone2', 'reflect_on_english', 'chosen');
+                this.addXP(10);
+                this.contentArea.innerHTML += `
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Your Reflection:</h4>
+                        <p>English's dominance brings both opportunities and challenges. While it enables global communication, it also marginalizes other languages and cultures. The key is finding balance between connectivity and diversity.</p>
+                    </div>
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.proceedToZone3()">Continue to Zone 3</button>
+                    </div>
+                `;
+            }
+            
+            findGlitch() {
+                this.recordChoice('zone2', 'found_glitch', 'chosen');
+                this.glitchFound = true;
+                this.addXP(20);
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 2: The Dominant Force - Hidden Path Discovered!</div>
+                    <div class="side-quest">
+                        <h3>🔓 Side Quest Unlocked: "Echoes of the Unspoken"</h3>
+                        <p>You've discovered a secret network of language activists working underground to preserve endangered languages. They've been documenting real revitalization efforts worldwide.</p>
+                    </div>
+                    
+                    <p>The activists share their experiences:</p>
+                    <ul>
+                        <li><strong>Māori Language Revival:</strong> New Zealand's successful immersion schools</li>
+                        <li><strong>Hebrew Resurrection:</strong> How a liturgical language became modern Israel's primary language</li>
+                        <li><strong>Welsh Digital Initiative:</strong> Creating technology tools for minority languages</li>
+                    </ul>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.joinActivists()">Join the activist network (+20 XP)</button>
+                        <button class="choice-btn" onclick="game.proceedToZone3()">Continue to Zone 3</button>
+                    </div>
+                `;
+            }
+            
+            joinActivists() {
+                this.recordChoice('zone2', 'joined_activists', 'chosen');
+                this.sideQuestActive = true;
+                this.addXP(20);
+                this.contentArea.innerHTML += `
+                    <div style="background: linear-gradient(45deg, #4ecdc4, #44a08d); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Side Quest Active!</h4>
+                        <p>You're now connected to the underground network. This will unlock special options and an alternate ending if you complete additional challenges.</p>
+                    </div>
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.proceedToZone3()">Continue to Zone 3</button>
+                    </div>
+                `;
+            }
+            
+            proceedToZone3() {
+                this.recordChoice('zone2', 'proceeded_to_zone3', 'chosen');
+                this.showZone3();
+            }
+            
+            showZone3() {
+                this.updateZoneDisplay('zone3');
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 3: The AI Crossroads</div>
+                    <p>You've reached the AI Ethics Laboratory. Here, you must decide which artificial intelligence tools to trust for language preservation efforts. Each has different capabilities and ethical implications.</p>
+                    
+                    <div class="ai-tools">
+                        <div class="ai-tool" data-tool="gpt">
+                            <h4>GPT-4</h4>
+                            <p>Advanced text generation<br>Risk: May not preserve authentic cultural context</p>
+                        </div>
+                        <div class="ai-tool" data-tool="translate">
+                            <h4>Neural Translate</h4>
+                            <p>Real-time translation<br>Risk: Lacks cultural nuance</p>
+                        </div>
+                        <div class="ai-tool" data-tool="whisper">
+                            <h4>Whisper Audio</h4>
+                            <p>Speech recognition<br>Risk: Trained mainly on dominant languages</p>
+                        </div>
+                    </div>
+                    
+                    <p>Select up to 2 AI tools, then complete the ethics checklist:</p>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.showEthicsChecklist()" id="ai-confirm-btn" disabled>Proceed to Ethics Review (0/2)</button>
+                    </div>
+                `;
+                
+                // Add AI tool selection logic
+                document.querySelectorAll('.ai-tool').forEach(tool => {
+                    tool.addEventListener('click', () => {
+                        const toolName = tool.dataset.tool;
+                        if (tool.classList.contains('selected')) {
+                            tool.classList.remove('selected');
+                            this.selectedAITools = this.selectedAITools.filter(t => t !== toolName);
+                        } else if (this.selectedAITools.length < 2) {
+                            tool.classList.add('selected');
+                            this.selectedAITools.push(toolName);
+                        }
+                        
+                        const btn = document.getElementById('ai-confirm-btn');
+                        btn.textContent = `Proceed to Ethics Review (${this.selectedAITools.length}/2)`;
+                        btn.disabled = this.selectedAITools.length === 0;
+                    });
+                });
+            }
+            
+            showEthicsChecklist() {
+                this.recordChoice('zone3', 'ai_tools_selected', this.selectedAITools);
+                this.addXP(10);
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 3: AI Ethics Checklist</div>
+                    <p>Before deploying AI tools for language preservation, complete this ethical assessment:</p>
+                    
+                    <div class="ethics-checklist">
+                        <h4>AI Ethics Checklist for Language Preservation:</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check1">
+                            <label for="check1">Ensure community consent and involvement in data collection</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check2">
+                            <label for="check2">Respect cultural sensitivity and sacred knowledge boundaries</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check3">
+                            <label for="check3">Provide transparent algorithms and decision-making processes</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check4">
+                            <label for="check4">Include native speakers in AI development and testing</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check5">
+                            <label for="check5">Establish data ownership rights for language communities</label>
+                        </div>
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.completeEthicsCheck()" id="ethics-btn" disabled>Complete Ethics Review</button>
+                    </div>
+                `;
+                
+                // Add checkbox logic
+                const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+                const ethicsBtn = document.getElementById('ethics-btn');
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const checkedCount = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked').length;
+                        ethicsBtn.disabled = checkedCount < 3;
+                        if (checkedCount >= 3) {
+                            ethicsBtn.textContent = `Complete Ethics Review (${checkedCount}/5)`;
+                        }
+                    });
+                });
+            }
+            
+            completeEthicsCheck() {
+                const checkedCount = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked').length;
+                const checkedItems = Array.from(document.querySelectorAll('.checklist-item input[type="checkbox"]:checked')).map(cb => cb.id);
+                this.recordChoice('zone3', 'ethics_checklist_completed', { count: checkedCount, items: checkedItems });
+                this.addXP(checkedCount * 5);
+                this.showZone4();
+            }
+            
+            showZone4() {
+                this.updateZoneDisplay('zone4');
+                let sideQuestContent = '';
+                if (this.sideQuestActive) {
+                    sideQuestContent = `
+                        <div class="side-quest">
+                            <h4>🌟 Activist Network Bonus Challenge</h4>
+                            <p>The underground network wants you to include community-led initiatives in your plan. Address how local speakers will lead the preservation efforts.</p>
+                        </div>
+                    `;
+                }
+                
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 4: The Master Plan</div>
+                    <p>You've reached the Strategy Center. Using everything you've learned, create a comprehensive language survival plan that addresses the challenges you've identified.</p>
+                    
+                    ${sideQuestContent}
+                    
+                    <div class="form-area">
+                        <h4>Language Preservation Master Plan:</h4>
+                        <textarea id="master-plan" placeholder="Outline your strategy for preserving endangered languages. Consider:
+
+• Which communities and languages you'll prioritize
+• How you'll use technology ethically and effectively  
+• What role different stakeholders will play
+• How you'll measure success and impact
+• Specific actions for the next 5 years
+
+${this.sideQuestActive ? '• How communities will lead their own revitalization efforts' : ''}
+
+Write at least 200 words..."></textarea>
+                        
+                        <div class="choices">
+                            <button class="choice-btn submit-btn" onclick="game.submitMasterPlan()">Submit Master Plan</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            submitMasterPlan() {
+                const plan = document.getElementById('master-plan').value;
+                if (plan.length < 200) {
+                    alert('Please write at least 200 words for your master plan.');
+                    return;
+                }
+                
+                this.gameData.masterPlan = plan;
+                this.recordChoice('zone4', 'master_plan_submitted', { wordCount: plan.length });
+                this.addXP(25);
+                
+                if (this.sideQuestActive) {
+                    this.sideQuestComplete = true;
+                    this.addXP(20);
+                }
+                
+                this.showZone5();
+            }
+            
+            showZone5() {
+                this.updateZoneDisplay('zone5');
+                this.contentArea.innerHTML = `
+                    <div class="zone-indicator">Zone 5: The Final Campaign</div>
+                    <p>This is it—the culmination of your mission. Create a digital campaign that will inspire global action for language preservation. Your campaign will be your lasting contribution to this cause.</p>
+                    
+                    <div class="form-area">
+                        <h4>Campaign Submission Options:</h4>
+                        <p>Choose one format for your final campaign:</p>
+                        
+                        <h5>Option 1: Video Campaign</h5>
+                        <input type="url" id="video-url" placeholder="Enter YouTube or Vimeo URL for your campaign video">
+                        
+                        <h5>Option 2: Image Campaign</h5>
+                        <input type="url" id="image-url" placeholder="Enter image URL for your campaign poster/infographic">
+                        
+                        <h5>Campaign Description:</h5>
+                        <textarea id="campaign-description" placeholder="Describe your campaign concept, target audience, and expected impact. How will this campaign raise awareness and drive action for language preservation?
+
+Write at least 150 words..."></textarea>
+                        
+                        <div class="choices">
+                            <button class="choice-btn submit-btn" onclick="game.submitFinalCampaign()">Launch Campaign & Complete Mission</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            submitFinalCampaign() {
+                const videoUrl = document.getElementById('video-url').value;
+                const imageUrl = document.getElementById('image-url').value;
+                const description = document.getElementById('campaign-description').value;
+                
+                if (!videoUrl && !imageUrl) {
+                    alert('Please provide either a video URL or image URL for your campaign.');
+                    return;
+                }
+                
+                if (description.length < 150) {
+                    alert('Please write at least 150 words describing your campaign.');
+                    return;
+                }
+                
+                this.gameData.campaign = {
+                    videoUrl,
+                    imageUrl,
+                    description
+                };
+                
+                this.recordChoice('zone5', 'campaign_submitted', { 
+                    hasVideo: !!videoUrl, 
+                    hasImage: !!imageUrl, 
+                    descriptionLength: description.length 
+                });
+                
+                this.addXP(30);
+                this.showEnding();
+            }
+            
+            showEnding() {
+                this.playerData.finalXP = this.xp;
+                this.playerData.sideQuestCompleted = this.sideQuestComplete;
+                this.playerData.gameCompleted = true;
+                this.playerData.endTime = new Date().toISOString();
+                
+                let endingType = 'standard';
+                let endingContent = '';
+                
+                if (this.xp > 60 && this.sideQuestComplete) {
+                    endingType = 'special';
+                    endingContent = `
+                        <div class="zone-indicator">🌟 SPECIAL ENDING: The Network Awakens</div>
+                        <div style="background: linear-gradient(45deg, #4ecdc4, #44a08d); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                            <h3>Congratulations, Language Guardian!</h3>
+                            <p>Your exceptional performance (${this.xp} XP) and connection to the activist network has triggered a global awakening. Your campaign doesn't just raise awareness—it becomes the catalyst for a worldwide movement.</p>
+                            
+                            <h4>Your Impact:</h4>
+                            <ul>
+                                <li>🌍 50+ communities adopt your preservation framework</li>
+                                <li>🤖 Major tech companies implement your ethical AI guidelines</li>
+                                <li>🎓 Universities create programs based on your master plan</li>
+                                <li>📱 New language learning apps prioritize endangered languages</li>
+                                <li>🏛️ UNESCO establishes the "Language Clash Protocol" based on your work</li>
+                            </ul>
+                            
+                            <p><strong>The underground network reveals itself to the world, and you become a founding member of the Global Language Preservation Council.</strong></p>
+                        </div>
+                    `;
+                } else if (this.xp > 40) {
+                    endingType = 'good';
+                    endingContent = `
+                        <div class="zone-indicator">✅ GOOD ENDING: The Ripple Effect</div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                            <h3>Well Done, Language Advocate!</h3>
+                            <p>Your efforts (${this.xp} XP) have made a significant impact on language preservation awareness.</p>
+                            
+                            <h4>Your Achievements:</h4>
+                            <ul>
+                                <li>📊 Your campaign reaches 100,000+ people globally</li>
+                                <li>🎯 5 endangered language communities adopt your strategies</li>
+                                <li>🔬 Research institutions cite your ethical framework</li>
+                                <li>📚 Educational materials based on your plan reach 50 schools</li>
+                            </ul>
+                            
+                            <p>While not all languages can be saved, your work ensures that many voices will continue to echo through time.</p>
+                        </div>
+                    `;
+                } else {
+                    endingContent = `
+                        <div class="zone-indicator">📝 STANDARD ENDING: Seeds Planted</div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                            <h3>Mission Complete, Language Learner!</h3>
+                            <p>Your journey (${this.xp} XP) has planted important seeds for language preservation.</p>
+                            
+                            <h4>Your Contribution:</h4>
+                            <ul>
+                                <li>🌱 Increased awareness in your local community</li>
+                                <li>📖 Valuable insights added to the preservation database</li>
+                                <li>🤝 Connections made with like-minded advocates</li>
+                                <li>🧠 Enhanced understanding of linguistic diversity challenges</li>
+                            </ul>
+                            
+                            <p>Every journey begins with a single step. Your efforts today contribute to a larger movement for linguistic diversity.</p>
+                        </div>
+                    `;
+                }
+                
+                this.recordChoice('ending', 'ending_achieved', endingType);
+                
+                this.contentArea.innerHTML = `
+                    ${endingContent}
+                    
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Mission Summary:</h4>
+                        <p><strong>Player:</strong> ${this.playerData.playerName} (ID: ${this.playerData.playerId})</p>
+                        <p><strong>Role:</strong> ${this.selectedRole.charAt(0).toUpperCase() + this.selectedRole.slice(1)}</p>
+                        <p><strong>Languages Prioritized:</strong> ${this.selectedLanguages.join(', ')}</p>
+                        <p><strong>AI Tools Selected:</strong> ${this.selectedAITools.join(', ')}</p>
+                        <p><strong>Side Quest:</strong> ${this.sideQuestComplete ? '✅ Completed' : '❌ Not Completed'}</p>
+                        <p><strong>Final XP:</strong> ${this.xp}</p>
+                        <p><strong>Hidden Path:</strong> ${this.glitchFound ? '✅ Discovered' : '❌ Not Found'}</p>
+                        <p><strong>Game Duration:</strong> ${this.calculateGameDuration()}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                        <h4>Thank you for playing Language Clash 2035!</h4>
+                        <p>Continue the mission in real life by:</p>
+                        <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                            <li>Learning about endangered languages in your region</li>
+                            <li>Supporting language revitalization projects</li>
+                            <li>Advocating for multilingual technology development</li>
+                            <li>Sharing awareness about linguistic diversity</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.saveResults()">Save & Export Results</button>
+                        <button class="choice-btn" onclick="game.restart()">Play Again</button>
+                    </div>
+                `;
+            }
+            
+            calculateGameDuration() {
+                const start = new Date(this.playerData.startTime);
+                const end = new Date(this.playerData.endTime);
+                const duration = Math.round((end - start) / 1000 / 60); // minutes
+                return `${duration} minutes`;
+            }
+                    endingType = 'good';
+                    endingContent = `
+                        <div class="zone-indicator">✅ GOOD ENDING: The Ripple Effect</div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                            <h3>Well Done, Language Advocate!</h3>
+                            <p>Your efforts (${this.xp} XP) have made a significant impact on language preservation awareness.</p>
+                            
+                            <h4>Your Achievements:</h4>
+                            <ul>
+                                <li>📊 Your campaign reaches 100,000+ people globally</li>
+                                <li>🎯 5 endangered language communities adopt your strategies</li>
+                                <li>🔬 Research institutions cite your ethical framework</li>
+                                <li>📚 Educational materials based on your plan reach 50 schools</li>
+                            </ul>
+                            
+                            <p>While not all languages can be saved, your work ensures that many voices will continue to echo through time.</p>
+                        </div>
+                    `;
+                } else {
+                    endingContent = `
+                        <div class="zone-indicator">📝 STANDARD ENDING: Seeds Planted</div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                            <h3>Mission Complete, Language Learner!</h3>
+                            <p>Your journey (${this.xp} XP) has planted important seeds for language preservation.</p>
+                            
+                            <h4>Your Contribution:</h4>
+                            <ul>
+                                <li>🌱 Increased awareness in your local community</li>
+                                <li>📖 Valuable insights added to the preservation database</li>
+                                <li>🤝 Connections made with like-minded advocates</li>
+                                <li>🧠 Enhanced understanding of linguistic diversity challenges</li>
+                            </ul>
+                            
+                            <p>Every journey begins with a single step. Your efforts today contribute to a larger movement for linguistic diversity.</p>
+                        </div>
+                    `;
+                }
+                
+                this.contentArea.innerHTML = `
+                    ${endingContent}
+                    
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Mission Summary:</h4>
+                        <p><strong>Role:</strong> ${this.selectedRole.charAt(0).toUpperCase() + this.selectedRole.slice(1)}</p>
+                        <p><strong>Languages Prioritized:</strong> ${this.selectedLanguages.join(', ')}</p>
+                        <p><strong>AI Tools Selected:</strong> ${this.selectedAITools.join(', ')}</p>
+                        <p><strong>Side Quest:</strong> ${this.sideQuestComplete ? '✅ Completed' : '❌ Not Completed'}</p>
+                        <p><strong>Final XP:</strong> ${this.xp}</p>
+                        <p><strong>Hidden Path:</strong> ${this.glitchFound ? '✅ Discovered' : '❌ Not Found'}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                        <h4>Thank you for playing Language Clash 2035!</h4>
+                        <p>Continue the mission in real life by:</p>
+                        <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                            <li>Learning about endangered languages in your region</li>
+                            <li>Supporting language revitalization projects</li>
+                            <li>Advocating for multilingual technology development</li>
+                            <li>Sharing awareness about linguistic diversity</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="choices">
+                        <button class="choice-btn" onclick="game.saveResults()">Save Results</button>
+                        <button class="choice-btn" onclick="game.restart()">Play Again</button>
+                    </div>
+                `;
+            }
+            
+            saveResults() {
+                const gameData = {
+                    playerInfo: {
+                        name: this.playerData.playerName,
+                        id: this.playerData.playerId,
+                        role: this.playerData.selectedRole,
+                        startTime: this.playerData.startTime,
+                        endTime: this.playerData.endTime,
+                        gameDuration: this.calculateGameDuration()
+                    },
+                    gameResults: {
+                        finalXP: this.playerData.finalXP,
+                        sideQuestCompleted: this.playerData.sideQuestCompleted,
+                        languagesSelected: this.selectedLanguages,
+                        aiToolsSelected: this.selectedAITools,
+                        glitchFound: this.glitchFound,
+                        gameCompleted: this.playerData.gameCompleted
+                    },
+                    detailedChoices: this.playerData.zoneChoices,
+                    writtenResponses: {
+                        masterPlan: this.gameData.masterPlan,
+                        campaign: this.gameData.campaign
+                    }
+                };
+                
+                // Save to localStorage for persistence
+                const playerId = `player_${Date.now()}_${this.playerData.playerName.replace(/\s+/g, '_')}`;
+                localStorage.setItem(playerId, JSON.stringify(gameData));
+                
+                // Create downloadable file
+                const dataStr = JSON.stringify(gameData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `language_clash_${this.playerData.playerName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                // Also log to console for easy access
+                console.log('=== LANGUAGE CLASH 2035 - PLAYER DATA ===');
+                console.log('Player:', gameData.playerInfo);
+                console.log('Results:', gameData.gameResults);
+                console.log('Zone Choices:', gameData.detailedChoices);
+                console.log('Written Responses:', gameData.writtenResponses);
+                console.log('Full Data Object:', gameData);
+                
+                alert(`Game data saved! \n\n📁 File downloaded: language_clash_${this.playerData.playerName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json\n\n💾 Data also saved to browser storage and console.\n\n🎯 Final Score: ${this.playerData.finalXP} XP\n⭐ Side Quest: ${this.playerData.sideQuestCompleted ? 'Completed' : 'Not Completed'}`);
+            }
+            
+            restart() {
+                // Keep the original player name/ID for tracking multiple attempts
+                const originalName = this.playerData.playerName;
+                const originalId = this.playerData.playerId;
+                
+                this.xp = 0;
+                this.currentZone = 'start';
+                this.selectedRole = '';
+                this.selectedLanguages = [];
+                this.selectedAITools = [];
+                this.sideQuestActive = false;
+                this.sideQuestComplete = false;
+                this.glitchFound = false;
+                this.gameData = {};
+                
+                // Reset player data but keep identity for tracking multiple plays
+                this.playerData = {
+                    playerName: originalName,
+                    playerId: originalId,
+                    selectedRole: '',
+                    startTime: new Date().toISOString(),
+                    zoneChoices: {},
+                    finalXP: 0,
+                    sideQuestCompleted: false,
+                    gameCompleted: false,
+                    endTime: null
+                };
+                
+                this.xpDisplay.textContent = '0';
+                this.showStartScreen();
+            }
+            
+            // Method to retrieve all stored player data (for teachers/administrators)
+            static getAllStoredData() {
+                const allData = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('player_')) {
+                        try {
+                            const data = JSON.parse(localStorage.getItem(key));
+                            allData.push({key, data});
+                        } catch (e) {
+                            console.warn('Could not parse stored data for key:', key);
+                        }
+                    }
+                }
+                return allData;
+            }
+            
+            // Method to export all player data as CSV (for easy analysis)
+            static exportAllDataAsCSV() {
+                const allData = LanguageClashGame.getAllStoredData();
+                if (allData.length === 0) {
+                    alert('No player data found in storage.');
+                    return;
+                }
+                
+                const csvRows = [];
+                csvRows.push('Name,ID,Role,StartTime,EndTime,Duration,FinalXP,SideQuestCompleted,LanguagesSelected,AIToolsSelected,GlitchFound,GameCompleted');
+                
+                allData.forEach(({data}) => {
+                    const row = [
+                        data.playerInfo.name,
+                        data.playerInfo.id,
+                        data.playerInfo.role,
+                        data.playerInfo.startTime,
+                        data.playerInfo.endTime,
+                        data.playerInfo.gameDuration,
+                        data.gameResults.finalXP,
+                        data.gameResults.sideQuestCompleted,
+                        data.gameResults.languagesSelected.join(';'),
+                        data.gameResults.aiToolsSelected.join(';'),
+                        data.gameResults.glitchFound,
+                        data.gameResults.gameCompleted
+                    ];
+                    csvRows.push(row.join(','));
+                });
+                
+                const csvString = csvRows.join('\n');
+                const blob = new Blob([csvString], {type: 'text/csv'});
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `language_clash_all_players_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+            }
+        }
+        
+        // Initialize the game when page loads
+        let game;
+        document.addEventListener('DOMContentLoaded', () => {
+            game = new LanguageClashGame();
+        });
+        
+        // Add admin functions to console for teacher access
+        window.viewAllPlayerData = () => {
+            const data = LanguageClashGame.getAllStoredData();
+            console.table(data.map(d => ({
+                Name: d.data.playerInfo.name,
+                ID: d.data.playerInfo.id,
+                Role: d.data.playerInfo.role,
+                XP: d.data.gameResults.finalXP,
+                SideQuest: d.data.gameResults.sideQuestCompleted,
+                Completed: d.data.gameResults.gameCompleted
+            })));
+            return data;
+        };
+        
+        window.exportPlayerDataCSV = () => {
+            LanguageClashGame.exportAllDataAsCSV();
+        };
+        
+        window.clearAllPlayerData = () => {
+            if (confirm('Are you sure you want to delete ALL stored player data? This cannot be undone.')) {
+                for (let i = localStorage.length - 1; i >= 0; i--) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('player_')) {
+                        localStorage.removeItem(key);
+                    }
+                }
+                alert('All player data cleared.');
+            }
+        };
+    </script>
+</body>
+</html>
