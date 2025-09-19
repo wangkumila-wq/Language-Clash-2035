@@ -1,4 +1,4 @@
-# Language-Clash-2035[index.html](https://github.com/user-attachments/files/22423908/language_clash_2035_index.html)
+# Language-Clash-2035[index.html](index.html)
 <!DOCTYPE html>
 <html lang="en">
 <head>
