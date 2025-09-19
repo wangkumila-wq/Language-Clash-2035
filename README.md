@@ -1,4 +1,4 @@
-# Language-Clash-2035[language_clash_2035_game.html](https://github.com/user-attachments/files/22423908/language_clash_2035_game.html)
+# Language-Clash-2035[language_clash_2035_index.html](https://github.com/user-attachments/files/22423908/language_clash_2035_index.html)
 <!DOCTYPE html>
 <html lang="en">
 <head>
